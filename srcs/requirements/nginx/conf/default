@@ -1,0 +1,21 @@
+
+events {
+
+}
+
+http {
+        include /etc/nginx/mime.types;
+        server {
+                server_name $(DOMAIN_NAME);
+                listen 443 ssl;
+                ssl_protocols TLSv1.3;
+                ssl_certificate     /etc/ssl/my.crt;
+				ssl_certificate_key /etc/ssl/my.key;
+				root /var/www/html;
+				index index.php index.html;
+                location ~ \.php$ {
+                        include snippets/fastcgi-php.conf;
+                        fastcgi_pass wordpress:9000;
+                }
+        }
+}
